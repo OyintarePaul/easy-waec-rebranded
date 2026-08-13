@@ -1,40 +1,43 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
-import { ThemeProvider } from "next-themes";
+import { Inter } from "next/font/google";
+import { Toaster } from "@/components/ui/sonner";
+import { Navbar } from "@/components/layout/navbar";
+import { Footer } from "@/components/layout/footer";
+import { createClient } from "@/lib/supabase/server";
 import "./globals.css";
 
-const defaultUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
+  title: "EasyWAEC - Instant WAEC Scratch Card & PIN Purchase",
+  description: "Buy WAEC result checker PINs with instant digital delivery.",
 };
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  display: "swap",
-  subsets: ["latin"],
-});
-
-export default function RootLayout({
+export default async function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const userSession = user
+    ? {
+        id: user.id,
+        email: user.email,
+        name: user.user_metadata?.full_name,
+      }
+    : null;
+
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.className} antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+    <html lang="en" className="h-full">
+      <body className={`${inter.className} flex min-h-screen flex-col bg-white dark:bg-gray-950 dark:text-white`}>
+        <Navbar user={userSession} />
+        <main className="flex-1">{children}</main>
+        <Footer />
+        <Toaster position="top-right" richColors />
       </body>
     </html>
   );
