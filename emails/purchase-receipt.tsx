@@ -18,7 +18,7 @@ export interface PinItem {
 }
 
 export interface PurchaseReceiptEmailProps {
-  userName: string;
+  username: string;
   transactionRef: string;
   totalAmount: number;
   pins: PinItem[];
@@ -26,16 +26,10 @@ export interface PurchaseReceiptEmailProps {
 }
 
 export const PurchaseReceiptEmail = ({
-  userName = "Valued Customer",
+  username,
   transactionRef = "TXN-123456789",
   totalAmount = 4500,
-  pins = [
-    {
-      serialNumber: "WRN123456789",
-      pinCode: "123456789012",
-      examType: "WAEC Direct",
-    },
-  ],
+  pins,
   date = new Date().toLocaleDateString("en-NG", {
     year: "numeric",
     month: "long",
@@ -59,7 +53,7 @@ export const PurchaseReceiptEmail = ({
           <Hr style={styles.divider} />
 
           {/* Greeting */}
-          <Text style={styles.greeting}>Hello {userName},</Text>
+          <Text style={styles.greeting}>Hi, {username},</Text>
           <Text style={styles.paragraph}>
             Thank you for your purchase! Your payment was successful and your WAEC Scratch Card PINs are ready below.
           </Text>

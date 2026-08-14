@@ -3,15 +3,11 @@ import { PurchaseReceiptEmail, PinItem } from "@/emails/purchase-receipt";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export interface SendReceiptEmailParams {
-  userEmail?: string;
-  email?: string; // Alias for flexible callers
-  userName?: string;
+export interface SendReceiptEmailParams {  
+  email: string; // Alias for flexible callers
   quantity: number;
   customerName?: string; // Alias for flexible callers
-  transactionRef?: string;
   paymentReference?: string; // Alias for flexible callers
-  totalAmount?: number;
   amount?: number; // Alias for flexible callers
   pins: PinItem[];
 }
@@ -21,10 +17,10 @@ export interface SendReceiptEmailParams {
  */
 export async function sendPurchaseReceiptEmail(params: SendReceiptEmailParams) {
   try {
-    const recipientEmail = params.userEmail || params.email;
-    const recipientName = params.userName || params.customerName || "Valued Customer";
-    const ref = params.transactionRef || params.paymentReference || "N/A";
-    const total = params.totalAmount ?? params.amount ?? 0;
+    const recipientEmail = params.email;
+    const recipientName = params.email?.split("@")[0] || "Customer";
+    const ref = params.paymentReference || "N/A";
+    const total = params.amount ?? 0;
 
     if (!recipientEmail) {
       console.warn("sendPurchaseReceiptEmail skipped: No recipient email provided.");
@@ -37,11 +33,11 @@ export async function sendPurchaseReceiptEmail(params: SendReceiptEmailParams) {
     }
 
     const { data, error } = await resend.emails.send({
-      from: "EasyWAEC <orders@easywaec.com>",
+      from: "EasyWAEC <onboarding@resend.dev>",
       to: [recipientEmail],
       subject: `[EasyWAEC] Payment Receipt & PINs (${ref})`,
       react: PurchaseReceiptEmail({
-        userName: recipientName,
+        username: recipientName,
         transactionRef: ref,
         totalAmount: total,
         pins: params.pins,

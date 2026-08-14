@@ -3,6 +3,7 @@ import { validateWebhookSignature } from "@/lib/monnify";
 import { processTransaction } from "@/lib/transaction-fulfillment";
 
 export async function POST(req: NextRequest) {
+  console.log("Received Monnify webhook request:", req.url);
   try {
     const rawBody = await req.text();
     const signatureHeader = req.headers.get("monnify-signature");

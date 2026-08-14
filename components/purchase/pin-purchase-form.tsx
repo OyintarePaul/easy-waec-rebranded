@@ -18,6 +18,7 @@ const UNIT_PRICE = 5300; // ₦5,300 per WAEC PIN
 
 export function PinPurchaseForm({ user }: PinPurchaseFormProps) {
   const [quantity, setQuantity] = useState<number>(1);
+  const [customerEmail, setCustomerEmail] = useState(user?.email || "");
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -36,7 +37,7 @@ export function PinPurchaseForm({ user }: PinPurchaseFormProps) {
 
     startTransition(async () => {
       try {
-        const result = await initiatePinPurchase({ quantity });
+        const result = await initiatePinPurchase({ quantity, customerEmail });
         if (result.checkoutUrl) {
           window.location.href = result.checkoutUrl;
         } else {
@@ -49,7 +50,7 @@ export function PinPurchaseForm({ user }: PinPurchaseFormProps) {
   };
 
   return (
-    <div className="mx-auto max-w-lg rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+<div className="mx-auto max-w-lg rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
       <div className="mb-6">
         <h2 className="text-xl font-bold text-gray-900 dark:text-white">
           Buy WAEC Result Checker PIN
@@ -66,7 +67,7 @@ export function PinPurchaseForm({ user }: PinPurchaseFormProps) {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-5">
-        {/* User Details Display */}
+        {/* User Status / Info */}
         {user ? (
           <div className="rounded-lg bg-gray-50 p-3.5 text-xs space-y-1 text-gray-600 dark:bg-gray-800 dark:text-gray-300">
             <div>
@@ -85,6 +86,26 @@ export function PinPurchaseForm({ user }: PinPurchaseFormProps) {
             You are currently not logged in. You will be prompted to sign in before checkout.
           </div>
         )}
+
+        {/* Delivery Email Input */}
+        <div>
+          <label htmlFor="customerEmail" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+            Delivery Email
+          </label>
+          <input
+            id="customerEmail"
+            type="email"
+            required
+            disabled={isPending}
+            placeholder="e.g. recipient@example.com"
+            value={customerEmail}
+            onChange={(e) => setCustomerEmail(e.target.value)}
+            className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm placeholder:text-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-emerald-500"
+          />
+          <p className="mt-1 text-[11px] text-gray-500 dark:text-gray-400">
+            PINs and purchase receipts will be dispatched to this address.
+          </p>
+        </div>
 
         {/* Quantity Select Counter */}
         <div>

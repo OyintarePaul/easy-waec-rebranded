@@ -19,7 +19,7 @@ interface UserInfo {
 }
 
 interface BuyPinDialogProps {
-  user: UserInfo | null;
+  user: UserInfo
 }
 
 export function BuyPinDialog({ user }: BuyPinDialogProps) {

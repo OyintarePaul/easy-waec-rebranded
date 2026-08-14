@@ -1,6 +1,6 @@
 import { verifyPayment } from "./monnify";
 import { sendPurchaseReceiptEmail } from "./email";
-import {supabaseAdmin} from "@/lib/supabase/admin"
+import { supabaseAdmin } from "@/lib/supabase/admin"
 
 interface ProcessTransactionResult {
   status: "SUCCESS" | "ALREADY_PROCESSED" | "FAILED" | "PIN_DISPATCH_FAILED";
@@ -93,9 +93,10 @@ export async function processTransaction(
     for (const item of rawPins) {
       const { error: rpcError } = await supabaseAdmin.rpc("insert_encrypted_pin", {
         p_transaction_id: transactionId,
-        p_serial_number: item.serialNumber,
+        p_raw_serial: item.serialNumber,
         p_raw_pin: item.pinCode,
-        p_encryption_key: encryptionKey,
+        p_secret_key: encryptionKey,
+        p_user_id: transaction.user_id,
       });
 
       if (rpcError) {
@@ -117,7 +118,6 @@ export async function processTransaction(
     try {
       await sendPurchaseReceiptEmail({
         email: transaction.customer_email,
-        customerName: transaction.customer_name,
         paymentReference,
         quantity: pinQuantity,
         amount: transaction.amount,
