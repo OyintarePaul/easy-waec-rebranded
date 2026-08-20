@@ -1,4 +1,4 @@
-// lib/vtpass.ts
+import { cacheLife } from "next/cache";
 
 export interface VtpassCard {
   serialNumber: string;
@@ -145,9 +145,8 @@ export async function vendWaecPins({
     serviceID: "waec",
     variation_code: "waecdirect",
     quantity: quantity,
-    billersCode: "1234567890",
-    phone: "08011111111",
     email: customerEmail,
+    phone: "08011111111", // Placeholder phone number; VTPass requires a phone field
   };
 
   const response = await fetch(`${baseUrl}/api/pay`, {
@@ -192,4 +191,66 @@ export async function vendWaecPins({
   }
 
   return cards;
+}
+
+
+export interface VtpassVariation {
+  variation_code: string;
+  name: string;
+  variation_amount: string | number;
+  fixedPrice: string;
+}
+
+export interface VtpassVariationsResponse {
+  response_description: string;
+  content: {
+    ServiceName: string;
+    serviceID: string;
+    varations: VtpassVariation[];
+  };
+}
+
+
+export async function getWaecUnitPrice(): Promise<number> {
+  "use cache";
+  cacheLife("hours");
+
+  const apiKey = process.env.VTPASS_API_KEY;
+  const secretKey = process.env.VTPASS_SECRET_KEY;
+  const baseUrl = process.env.VTPASS_BASE_URL || "https://sandbox.vtpass.com";
+  const profitMargin = Number(process.env.PROFIT_MARGIN_PER_PIN) || 500;
+
+  if (!apiKey || !secretKey) {
+    throw new Error("Missing VTPass API credentials in environment variables.");
+  }
+
+  const response = await fetch(`${baseUrl}/api/service-variations?serviceID=waec`, {
+    method: "GET",
+    headers: {
+      "api-key": apiKey,
+      "secret-key": secretKey,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch VTPass variations: HTTP ${response.status}`);
+  }
+
+  const data: VtpassVariationsResponse = await response.json();
+  const variations = data.content?.varations || [];
+
+  // Locate the specific WAEC variation
+  const waecVariation = variations.find((v) => v.variation_code === "waecdirect");
+
+  if (!waecVariation) {
+    throw new Error("WAEC variation 'waecdirect' not found in VTPass response.");
+  }
+
+  const basePrice = Number(waecVariation.variation_amount);
+
+  if (isNaN(basePrice) || basePrice <= 0) {
+    throw new Error("Invalid base unit price received from VTPass.");
+  }
+
+  return basePrice + profitMargin;
 }

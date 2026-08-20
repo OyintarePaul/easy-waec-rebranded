@@ -1,26 +1,12 @@
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
 import { getUserTransactions } from "@/data/dashboard";
+import {getAuthUser} from "@/data/auth"
 import { PinDetailsDialog } from "./pin-details-dialog";
 import { RequeryButton } from "./requery-button";
 import { BuyPinDialog } from "./buy-pin-dialog";
+import { PinPurchaseForm } from "@/components/purchase/pin-purchase-form";
 
 export default async function DashboardPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  const userInfo = {
-    id: user.id,
-    email: user.email || "",
-    phone: user.user_metadata?.phone,
-  }
-
+  const userInfo = await getAuthUser()
   const transactions = await getUserTransactions();
 
   const totalSpent = transactions
@@ -70,10 +56,12 @@ export default async function DashboardPage() {
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
           <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-            Welcome back, {user.email}. Manage your purchased PINs and transaction history.
+            Welcome back, {userInfo.email}. Manage your purchased PINs and transaction history.
           </p>
         </div>
-        <BuyPinDialog user={userInfo} />
+        <BuyPinDialog user={userInfo}>
+          <PinPurchaseForm />
+        </BuyPinDialog>
       </div>
 
       {/* Summary Metric Cards */}
@@ -111,7 +99,9 @@ export default async function DashboardPage() {
               Get instant, encrypted result checking PINs delivered directly to your dashboard.
             </p>
           </div>
-          <BuyPinDialog user={userInfo} />
+          <BuyPinDialog user={userInfo}>
+            <PinPurchaseForm />
+          </BuyPinDialog>
         </div>
       )}
 

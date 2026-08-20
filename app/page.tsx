@@ -31,7 +31,7 @@ export default async function HomePage() {
 
         {/* Embedded Purchase Form */}
         <div className="mt-8">
-          <PinPurchaseForm user={userInfo} />
+          <PinPurchaseForm />
         </div>
       </section>
 
