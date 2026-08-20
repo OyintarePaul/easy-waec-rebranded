@@ -1,19 +1,6 @@
-import { createClient } from "@/lib/supabase/server";
 import { PinPurchaseForm } from "@/components/purchase/pin-purchase-form";
 
 export default async function HomePage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  const userInfo = user
-    ? {
-        id: user.id,
-        email: user.email || "",
-        phone: user.user_metadata?.phone,
-      }
-    : null;
 
   return (
     <div className="space-y-16 py-12">

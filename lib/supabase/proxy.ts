@@ -82,7 +82,7 @@ export async function updateSession(request: NextRequest) {
   if (!user && isDashboardRoute(pathname)) {
     const url = request.nextUrl.clone();
 
-    url.pathname = "/login";
+    url.pathname = "/auth/login";
     url.searchParams.set(
       "redirectTo",
       pathname + request.nextUrl.search,

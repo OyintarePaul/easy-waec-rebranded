@@ -26,7 +26,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/result" className="hover:text-emerald-600">
-                  WAEC Direct Portal
+                  Check Result
                 </Link>
               </li>
               <li>
@@ -72,3 +72,5 @@ export function Footer() {
     </footer>
   );
 }
+
+
