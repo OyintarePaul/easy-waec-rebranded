@@ -15,7 +15,6 @@ export function RequeryButton({ reference }: { reference: string }) {
       const res = await requeryTransaction(reference);
       if (res.success) {
         toast.success(res.message);
-        router.refresh();
       } else {
         toast.error(res.message);
       }

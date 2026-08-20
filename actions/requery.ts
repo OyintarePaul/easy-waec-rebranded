@@ -2,6 +2,8 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { processTransaction } from "@/lib/transaction-fulfillment";
+import { refresh } from "next/cache";
+
 
 export async function requeryTransaction(reference: string) {
   try {
@@ -29,7 +31,7 @@ export async function requeryTransaction(reference: string) {
 
     // Force re-verify transaction and issue missing PINs
     const result = await processTransaction(reference);
-
+    refresh()
     if (result.status === "SUCCESS") {
       return {
         success: true,
@@ -38,7 +40,7 @@ export async function requeryTransaction(reference: string) {
     } else {
       return {
         success: false,
-        message: "Payment verification pending or failed.",
+        message: result.error || "Payment verification pending or failed.",
       };
     }
   } catch (err: any) {

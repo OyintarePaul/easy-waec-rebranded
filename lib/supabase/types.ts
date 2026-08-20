@@ -97,6 +97,7 @@ export type Database = {
           status: Database["public"]["Enums"]["transaction_status"]
           updated_at: string
           user_id: string
+          vendor_request_id: string | null
         }
         Insert: {
           amount: number
@@ -108,6 +109,7 @@ export type Database = {
           status?: Database["public"]["Enums"]["transaction_status"]
           updated_at?: string
           user_id: string
+          vendor_request_id?: string | null
         }
         Update: {
           amount?: number
@@ -119,6 +121,7 @@ export type Database = {
           status?: Database["public"]["Enums"]["transaction_status"]
           updated_at?: string
           user_id?: string
+          vendor_request_id?: string | null
         }
         Relationships: [
           {
@@ -139,9 +142,9 @@ export type Database = {
         Args: { p_secret_key: string; p_transaction_id: string }
         Returns: {
           created_at: string
-          pin: string
-          pin_id: string
-          serial: string
+          decrypted_pin: string
+          decrypted_serial: string
+          id: string
         }[]
       }
       insert_encrypted_pin: {

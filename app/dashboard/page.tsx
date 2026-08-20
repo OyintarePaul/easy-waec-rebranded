@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { getUserTransactions } from "@/actions/dashboard";
+import { getUserTransactions } from "@/data/dashboard";
 import { PinDetailsDialog } from "./pin-details-dialog";
 import { RequeryButton } from "./requery-button";
 import { BuyPinDialog } from "./buy-pin-dialog";

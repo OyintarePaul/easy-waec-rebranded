@@ -4,7 +4,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "update-types": "npx supabase gen types typescript --linked --schema public > lib/supabase/types.ts"
+
   },
   "dependencies": {
     "@hookform/resolvers": "^5.7.1",

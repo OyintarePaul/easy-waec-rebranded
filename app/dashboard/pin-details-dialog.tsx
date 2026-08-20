@@ -12,12 +12,7 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-
-interface PinItem {
-  id: string;
-  serial_number: string;
-  decrypted_pin: string;
-}
+import { DecryptedPin } from "@/lib/supabase";
 
 interface PinDetailsDialogProps {
   transactionId: string;
@@ -27,7 +22,7 @@ interface PinDetailsDialogProps {
 export function PinDetailsDialog({ transactionId, reference }: PinDetailsDialogProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [pins, setPins] = useState<PinItem[]>([]);
+  const [pins, setPins] = useState<DecryptedPin[]>([]);
 
   const handleOpenChange = async (open: boolean) => {
     setIsOpen(open);
@@ -79,7 +74,7 @@ export function PinDetailsDialog({ transactionId, reference }: PinDetailsDialogP
           ) : (
             pins.map((pin, idx) => (
               <div
-                key={pin.id || idx}
+                key={idx}
                 className="rounded-lg border border-gray-200 bg-gray-50 p-3.5 dark:border-gray-800 dark:bg-gray-800/50"
               >
                 <div className="flex items-center justify-between text-xs text-gray-500">
@@ -89,9 +84,9 @@ export function PinDetailsDialog({ transactionId, reference }: PinDetailsDialogP
                   <div>
                     <span className="block font-medium text-gray-400">SERIAL NUMBER</span>
                     <div className="mt-1 flex items-center justify-between rounded bg-white px-2 py-1 font-mono text-gray-900 shadow-sm dark:bg-gray-900 dark:text-white">
-                      <span className="truncate">{pin.serial_number}</span>
+                      <span className="truncate">{pin.decrypted_serial}</span>
                       <button
-                        onClick={() => copyToClipboard(pin.serial_number, "Serial Number")}
+                        onClick={() => copyToClipboard(pin.decrypted_serial, "Serial Number")}
                         className="ml-1 text-[10px] text-emerald-600 hover:underline"
                       >
                         Copy
