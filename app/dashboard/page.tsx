@@ -59,7 +59,7 @@ export default async function DashboardPage() {
             Welcome back, {userInfo.email}. Manage your purchased PINs and transaction history.
           </p>
         </div>
-        <BuyPinDialog user={userInfo}>
+        <BuyPinDialog >
           <PinPurchaseForm />
         </BuyPinDialog>
       </div>
@@ -99,7 +99,7 @@ export default async function DashboardPage() {
               Get instant, encrypted result checking PINs delivered directly to your dashboard.
             </p>
           </div>
-          <BuyPinDialog user={userInfo}>
+          <BuyPinDialog>
             <PinPurchaseForm />
           </BuyPinDialog>
         </div>

@@ -149,6 +149,8 @@ export async function vendWaecPins({
     phone: "08011111111", // Placeholder phone number; VTPass requires a phone field
   };
 
+  console.log(payload)
+
   const response = await fetch(`${baseUrl}/api/pay`, {
     method: "POST",
     headers: {

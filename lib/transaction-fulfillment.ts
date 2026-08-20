@@ -91,6 +91,9 @@ export async function processTransaction(
       requestId: vtpassRequestId,
     });
 
+    console.log("Pins:", realPins);
+    console.log("Quantity:", pinQuantity);
+
     // 5. Encrypt & Save PINs to database using Supabase RPC function
     for (const item of realPins) {
       const { error: rpcError } = await supabaseAdmin.rpc("insert_encrypted_pin", {

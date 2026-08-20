@@ -14,12 +14,8 @@ export async function GET(req: NextRequest) {
 
   try {
     const result = await processTransaction(paymentReference);
-
-    if (result.status === "SUCCESS" || result.status === "ALREADY_PROCESSED") {
-      return NextResponse.redirect(`${baseUrl}/dashboard?status=success`);
-    }
-
-    return NextResponse.redirect(`${baseUrl}/dashboard?status=failed`);
+    
+    return NextResponse.redirect(`${baseUrl}/dashboard`);
   } catch (error) {
     console.error("Payment Verification Redirect Error:", error);
     return NextResponse.redirect(`${baseUrl}/dashboard?status=failed`);

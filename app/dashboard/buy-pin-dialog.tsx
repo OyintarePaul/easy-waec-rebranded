@@ -19,11 +19,10 @@ interface UserInfo {
 }
 
 interface BuyPinDialogProps {
-  user: UserInfo,
   children: React.ReactNode;
 }
 
-export function BuyPinDialog({ user, children }: BuyPinDialogProps) {
+export function BuyPinDialog({ children }: BuyPinDialogProps) {
   const [open, setOpen] = useState(false);
 
   return (

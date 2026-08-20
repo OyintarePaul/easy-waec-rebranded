@@ -31,7 +31,9 @@ export async function requeryTransaction(reference: string) {
 
     // Force re-verify transaction and issue missing PINs
     const result = await processTransaction(reference);
-    refresh()
+    
+    refresh();
+
     if (result.status === "SUCCESS") {
       return {
         success: true,
