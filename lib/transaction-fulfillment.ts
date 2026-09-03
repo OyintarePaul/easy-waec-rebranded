@@ -18,7 +18,7 @@ export async function processTransaction(
     // 1. Atomic lock: allow both PENDING and PIN_DISPATCH_FAILED states to be retried
     const { data: updatedRows, error: updateError } = await supabaseAdmin
       .from("transactions")
-      .update({ 
+      .update({
         status: "PROCESSING",
         updated_at: new Date().toISOString()
       })
@@ -43,9 +43,10 @@ export async function processTransaction(
       }
 
       if (existingTx.status === "SUCCESS" || existingTx.status === "PROCESSING") {
+        console.log("Already being processed...")
         return { status: "ALREADY_PROCESSED", transactionId: existingTx.id };
-      }
 
+      }
       return { status: "FAILED", error: `Transaction is in non-retryable status: ${existingTx.status}` };
     }
 
@@ -58,7 +59,7 @@ export async function processTransaction(
     if (paymentVerification.status !== "PAID" || paymentVerification.amountPaid < transaction.amount) {
       await supabaseAdmin
         .from("transactions")
-        .update({ 
+        .update({
           status: "FAILED",
           updated_at: new Date().toISOString()
         })

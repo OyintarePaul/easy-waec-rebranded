@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const result = await processTransaction(paymentReference);
+    await processTransaction(paymentReference);
     
     return NextResponse.redirect(`${baseUrl}/dashboard`);
   } catch (error) {
