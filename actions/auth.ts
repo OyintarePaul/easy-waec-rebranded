@@ -68,6 +68,7 @@ export async function loginUser(prevState: AuthState | void, formData: FormData)
  * Register a new user with email, password, and phone number.
  */
 export async function signUpUser(prevState: AuthState | void, formData: FormData): Promise<AuthState> {
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
   const rawData = Object.fromEntries(formData.entries());
   const validated = signUpSchema.safeParse(rawData);
 
@@ -85,6 +86,7 @@ export async function signUpUser(prevState: AuthState | void, formData: FormData
       data: {
         phone: validated.data.phone,
       },
+      emailRedirectTo: baseUrl + "/auth/callback"
     },
   });
 
