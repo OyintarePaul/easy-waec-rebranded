@@ -6,7 +6,6 @@ export async function getUserMetrics() {
   if (!user) throw new Error("Unauthorized. Please log in.")
 
   const supabase = await createClient();
-
   const { data: transactions, error } = await supabase
     .from("transactions")
     .select("amount, quantity, status")
@@ -45,6 +44,7 @@ export async function getUserTransactions({
 }) {
   const user = await getAuthUser()
   if (!user) throw new Error("Unauthorized. Please log in.")
+
   const supabase = await createClient();
 
   const from = (page - 1) * pageSize;
