@@ -2,7 +2,6 @@ import { getUserTransactions } from "@/data/dashboard";
 import { PinDetailsDialog } from "@/app/dashboard/pin-details-dialog";
 import { RequeryButton } from "@/app/dashboard/requery-button";
 import { DashboardPaginationClient } from "./dashboard-pagination-client";
-
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface TransactionsProps {

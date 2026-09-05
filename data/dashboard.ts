@@ -1,15 +1,11 @@
 import { createClient } from "@/lib/supabase/server";
+import { getAuthUser } from "./auth";
 
 export async function getUserMetrics() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser();
+  const user = await getAuthUser()
+  if (!user) throw new Error("Unauthorized. Please log in.")
 
-  if (userError || !user) {
-    throw new Error("Unauthorized");
-  }
+  const supabase = await createClient();
 
   const { data: transactions, error } = await supabase
     .from("transactions")
@@ -47,15 +43,9 @@ export async function getUserTransactions({
   page?: number;
   pageSize?: number;
 }) {
+  const user = await getAuthUser()
+  if (!user) throw new Error("Unauthorized. Please log in.")
   const supabase = await createClient();
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser();
-
-  if (userError || !user) {
-    throw new Error("Unauthorized");
-  }
 
   const from = (page - 1) * pageSize;
   const to = from + pageSize - 1;

@@ -1,12 +1,10 @@
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/server'
 import { logoutUser } from '@/actions/auth'
 import { Skeleton } from '@/components/ui/skeleton'
+import { getAuthUser } from '@/data/auth'
 
 export async function AuthButtons() {
-    const supabase = await createClient()
-    const { data: { user } } = await supabase.auth.getUser()
-
+    const user = await getAuthUser();
 
     return (
         <div className="flex items-center space-x-3">

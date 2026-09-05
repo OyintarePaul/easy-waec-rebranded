@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { DashboardMetrics, MetricsSkeleton } from "@/app/dashboard/dashboard-metrics";
 import { DashboardTransactions, TransactionsSkeleton } from "@/app/dashboard/dashboard-transactions";
 import { BuyPinDialog } from "./buy-pin-dialog";
-import { PinPurchaseForm } from "@/components/purchase/pin-purchase-form";
+import { PinPurchaseForm, PinPurchaseFormSkeleton } from "@/components/purchase/pin-purchase-form";
 import { UserEmailPlaceholder } from "./user-email-placeholder";
 
 interface PageProps {
@@ -29,7 +29,9 @@ export default function DashboardPage({ searchParams }: PageProps) {
 
         {/* The Action Button is static and interactive instantly */}
         <BuyPinDialog>
+          <Suspense fallback={<PinPurchaseFormSkeleton />}>
           <PinPurchaseForm />
+          </Suspense>
         </BuyPinDialog>
       </div>
 

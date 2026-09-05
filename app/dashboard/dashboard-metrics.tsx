@@ -1,8 +1,8 @@
 import { getUserMetrics } from "@/data/dashboard";
 import { BuyPinDialog } from "@/app/dashboard/buy-pin-dialog";
-import { PinPurchaseForm } from "@/components/purchase/pin-purchase-form";
-
+import { PinPurchaseForm, PinPurchaseFormSkeleton } from "@/components/purchase/pin-purchase-form";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Suspense } from "react";
 
 export async function DashboardMetrics() {
   const { totalSpent, totalPinsPurchased, successfulOrders, hasTransactions } =
@@ -46,7 +46,9 @@ export async function DashboardMetrics() {
             </p>
           </div>
           <BuyPinDialog>
-            <PinPurchaseForm />
+            <Suspense fallback={<PinPurchaseFormSkeleton />}>
+              <PinPurchaseForm />
+            </Suspense>
           </BuyPinDialog>
         </div>
       )}

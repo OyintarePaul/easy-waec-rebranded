@@ -2,8 +2,10 @@ import "server-only";
 
 import { createClient } from "@/lib/supabase/server";
 import { cache } from "react";
+import { connection } from "next/server";
 
 export const getAuthUser = cache(async () => {
+    await connection()
     const supabase = await createClient();
     const {
         data: { user },
