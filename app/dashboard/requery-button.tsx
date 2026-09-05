@@ -1,13 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { requeryTransaction } from "@/actions/requery";
+import { Button } from "@/components/ui/button";
 
 export function RequeryButton({ reference }: { reference: string }) {
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const handleRequery = async () => {
     setLoading(true);
@@ -26,12 +25,13 @@ export function RequeryButton({ reference }: { reference: string }) {
   };
 
   return (
-    <button
+    <Button
       onClick={handleRequery}
       disabled={loading}
-      className="rounded bg-amber-50 px-2.5 py-1.5 text-xs font-medium text-amber-700 hover:bg-amber-100 disabled:opacity-50 dark:bg-amber-950/60 dark:text-amber-300 dark:hover:bg-amber-900/60"
+      variant="outline"
+      className="border-none bg-amber-50 px-3.5 py-1.5 text-xs font-medium text-amber-700 hover:bg-amber-100 disabled:opacity-50 dark:bg-amber-950/60 dark:text-amber-300 dark:hover:bg-amber-900/60"
     >
       {loading ? "Verifying..." : "Requery"}
-    </button>
+    </Button>
   );
 }

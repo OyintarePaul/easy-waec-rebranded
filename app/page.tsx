@@ -1,4 +1,5 @@
 import { PinPurchaseForm, PinPurchaseFormSkeleton } from "@/components/purchase/pin-purchase-form";
+import { Badge } from "@/components/ui/badge";
 import { Suspense } from "react";
 
 export default async function HomePage() {
@@ -7,9 +8,12 @@ export default async function HomePage() {
     <div className="space-y-16 py-12">
       {/* Hero Section */}
       <section className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-        <span className="inline-block rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300">
+        <Badge
+          variant="outline"
+          className="inline-block rounded-full border-none bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300"
+        >
           ⚡ 100% Instant Automated Delivery
-        </span>
+        </Badge>
         <h1 className="mt-4 text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl dark:text-white">
           Buy WAEC Result Checker PINs Online
         </h1>
@@ -20,8 +24,8 @@ export default async function HomePage() {
         {/* Embedded Purchase Form */}
         <div className="mt-8">
           <Suspense fallback={<PinPurchaseFormSkeleton />}>
-          <PinPurchaseForm />
-        </Suspense>
+            <PinPurchaseForm />
+          </Suspense>
         </div>
       </section>
 

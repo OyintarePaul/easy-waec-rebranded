@@ -4,91 +4,99 @@ import { useActionState } from "react";
 import Link from "next/link";
 import { loginUser } from "@/actions/auth";
 
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
 export default function LoginPage() {
   const [state, formAction, isPending] = useActionState(loginUser, undefined);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 dark:bg-gray-900">
-      <div className="w-full max-w-md space-y-6 rounded-xl bg-white p-8 shadow-md dark:bg-gray-800">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+      <Card className="w-full max-w-md space-y-6 border-none p-2 shadow-md dark:bg-gray-800">
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
             Welcome back to EasyWAEC
-          </h1>
-          <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+          </CardTitle>
+          <CardDescription className="mt-2 text-sm text-gray-600 dark:text-gray-400">
             Sign in to your account to view purchases and purchase PINs
-          </p>
-        </div>
+          </CardDescription>
+        </CardHeader>
 
-        {state?.error && (
-          <div className="rounded-md bg-red-50 p-3 text-sm text-red-700 dark:bg-red-900/40 dark:text-red-300">
-            {state.error}
-          </div>
-        )}
+        <CardContent className="space-y-4">
+          {state?.error && (
+            <div className="rounded-md bg-red-50 p-3 text-sm text-red-700 dark:bg-red-900/40 dark:text-red-300">
+              {state.error}
+            </div>
+          )}
 
-        <form action={formAction} className="space-y-4">
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          <form action={formAction} className="space-y-4">
+            <div className="space-y-1">
+              <Label htmlFor="email" className="text-gray-700 dark:text-gray-300">
+                Email address
+              </Label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                required
+                placeholder="you@example.com"
+                className="focus-visible:ring-emerald-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
+              />
+              {state?.fieldErrors?.email && (
+                <p className="mt-1 text-xs text-red-500">
+                  {state.fieldErrors.email[0]}
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-1">
+              <Label htmlFor="password" className="text-gray-700 dark:text-gray-300">
+                Password
+              </Label>
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                required
+                placeholder="••••••••"
+                className="focus-visible:ring-emerald-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
+              />
+              {state?.fieldErrors?.password && (
+                <p className="mt-1 text-xs text-red-500">
+                  {state.fieldErrors.password[0]}
+                </p>
+              )}
+            </div>
+
+            <Button
+              type="submit"
+              disabled={isPending}
+              className="w-full bg-emerald-600 font-semibold text-white hover:bg-emerald-500 focus-visible:ring-emerald-500 disabled:opacity-50 dark:bg-emerald-600 dark:hover:bg-emerald-500"
             >
-              Email address
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              required
-              placeholder="you@example.com"
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
-            />
-            {state?.fieldErrors?.email && (
-              <p className="mt-1 text-xs text-red-500">
-                {state.fieldErrors.email[0]}
-              </p>
-            )}
-          </div>
+              {isPending ? "Signing in..." : "Sign In"}
+            </Button>
+          </form>
+        </CardContent>
 
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-            >
-              Password
-            </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              required
-              placeholder="••••••••"
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
-            />
-            {state?.fieldErrors?.password && (
-              <p className="mt-1 text-xs text-red-500">
-                {state.fieldErrors.password[0]}
-              </p>
-            )}
-          </div>
-
-          <button
-            type="submit"
-            disabled={isPending}
-            className="w-full rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-50 dark:bg-emerald-600 dark:hover:bg-emerald-500"
-          >
-            {isPending ? "Signing in..." : "Sign In"}
-          </button>
-        </form>
-
-        <div className="text-center text-sm text-gray-600 dark:text-gray-400">
+        <CardFooter className="justify-center text-sm text-gray-600 dark:text-gray-400">
           Don't have an account?{" "}
           <Link
             href="/auth/sign-up"
-            className="font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400"
+            className="ml-1 font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400"
           >
             Sign up
           </Link>
-        </div>
-      </div>
+        </CardFooter>
+      </Card>
     </div>
   );
 }
