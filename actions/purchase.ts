@@ -1,7 +1,7 @@
 "use server";
 
 import { z } from "zod";
-import { supabaseAdmin } from "@/lib/supabase/admin";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { initiatePayment } from "@/lib/monnify";
 import { generateVtpassRequestId, getWaecUnitPrice } from "@/lib/vtpass";
@@ -22,6 +22,7 @@ export async function initiatePinPurchase({
   customerEmail: string;
 }) {
   const supabase = await createClient();
+  const supabaseAdmin = await createAdminClient()
 
   const {
     data: { user },

@@ -1,10 +1,11 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { supabaseAdmin } from "@/lib/supabase/admin";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 export async function getDecryptedPinsForTransaction(transactionId: string) {
   const supabase = await createClient();
+  const supabaseAdmin = await createAdminClient()
   const {
     data: { user },
     error: userError,

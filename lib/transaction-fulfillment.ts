@@ -1,4 +1,4 @@
-import { supabaseAdmin } from "@/lib/supabase/admin";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { verifyPayment } from "@/lib/monnify";
 import { sendPurchaseReceiptEmail } from "@/lib/email";
 import { vendWaecPins, generateVtpassRequestId, VtpassCard } from "@/lib/vtpass";
@@ -13,6 +13,7 @@ export async function processTransaction(
   paymentReference: string
 ): Promise<ProcessTransactionResult> {
   let transactionId: string | undefined;
+  const supabaseAdmin = await createAdminClient();
 
   try {
     // 1. Atomic lock: allow both PENDING and PIN_DISPATCH_FAILED states to be retried
