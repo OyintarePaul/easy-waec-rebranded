@@ -10,13 +10,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { PinPurchaseForm } from "@/components/purchase/pin-purchase-form";
-
-interface UserInfo {
-  id: string;
-  email: string;
-  phone?: string;
-}
 
 interface BuyPinDialogProps {
   children: React.ReactNode;

@@ -1,4 +1,5 @@
-import { PinPurchaseForm } from "@/components/purchase/pin-purchase-form";
+import { PinPurchaseForm, PinPurchaseFormSkeleton } from "@/components/purchase/pin-purchase-form";
+import { Suspense } from "react";
 
 export default async function HomePage() {
 
@@ -18,7 +19,9 @@ export default async function HomePage() {
 
         {/* Embedded Purchase Form */}
         <div className="mt-8">
+          <Suspense fallback={<PinPurchaseFormSkeleton />}>
           <PinPurchaseForm />
+        </Suspense>
         </div>
       </section>
 

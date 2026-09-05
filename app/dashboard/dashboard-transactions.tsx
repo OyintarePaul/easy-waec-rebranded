@@ -1,17 +1,17 @@
 import { getUserTransactions } from "@/data/dashboard";
 import { PinDetailsDialog } from "@/app/dashboard/pin-details-dialog";
 import { RequeryButton } from "@/app/dashboard/requery-button";
-import {
-    Pagination,
-    PaginationContent,
-    PaginationItem,
-    PaginationNext,
-    PaginationPrevious,
-} from "@/components/ui/pagination";
+import { DashboardPaginationClient } from "./dashboard-pagination-client";
 
 import { Skeleton } from "@/components/ui/skeleton";
 
-export async function DashboardTransactions({ currentPage }: { currentPage: number }) {
+interface TransactionsProps {
+    searchParamsPromise: Promise<{ page?: string }>;
+}
+
+export async function DashboardTransactions({ searchParamsPromise }: TransactionsProps) {
+    const params = await searchParamsPromise;
+    const currentPage = Math.max(1, Number(params?.page) || 1);
     const { transactions, totalCount, totalPages } = await getUserTransactions({
         page: currentPage,
         pageSize: 10,
@@ -117,32 +117,7 @@ export async function DashboardTransactions({ currentPage }: { currentPage: numb
                         <span className="font-medium text-gray-900 dark:text-white">{totalCount}</span> transactions
                     </p>
 
-                    <Pagination className="mx-0 w-auto">
-                        <PaginationContent>
-                            <PaginationItem>
-                                <PaginationPrevious
-                                    href={currentPage > 1 ? `/dashboard?page=${currentPage - 1}` : "#"}
-                                    aria-disabled={currentPage <= 1}
-                                    className={
-                                        currentPage <= 1
-                                            ? "pointer-events-none opacity-50"
-                                            : "text-emerald-600 hover:bg-emerald-50 hover:text-emerald-700 dark:text-emerald-400 dark:hover:bg-emerald-950/50 dark:hover:text-emerald-300"
-                                    }
-                                />
-                            </PaginationItem>
-                            <PaginationItem>
-                                <PaginationNext
-                                    href={currentPage < totalPages ? `/dashboard?page=${currentPage + 1}` : "#"}
-                                    aria-disabled={currentPage >= totalPages}
-                                    className={
-                                        currentPage >= totalPages
-                                            ? "pointer-events-none opacity-50"
-                                            : "text-emerald-600 hover:bg-emerald-50 hover:text-emerald-700 dark:text-emerald-400 dark:hover:bg-emerald-950/50 dark:hover:text-emerald-300"
-                                    }
-                                />
-                            </PaginationItem>
-                        </PaginationContent>
-                    </Pagination>
+                    <DashboardPaginationClient currentPage={currentPage} totalPages={totalPages} />
                 </div>
             )}
         </div>

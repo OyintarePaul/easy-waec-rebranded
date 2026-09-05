@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { getDecryptedPinsForTransaction } from "@/actions/dashboard";
 import {
@@ -12,6 +12,7 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { DecryptedPin } from "@/lib/supabase";
 
 interface PinDetailsDialogProps {
@@ -21,22 +22,24 @@ interface PinDetailsDialogProps {
 
 export function PinDetailsDialog({ transactionId, reference }: PinDetailsDialogProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [pins, setPins] = useState<DecryptedPin[]>([]);
+  
+  // React's transition engine manages the async state natively
+  const [isPending, startTransition] = useTransition();
 
-  const handleOpenChange = async (open: boolean) => {
+  const handleOpenChange = (open: boolean) => {
     setIsOpen(open);
+    
     if (open) {
-      setLoading(true);
-      try {
-        const data = await getDecryptedPinsForTransaction(transactionId);
-        setPins(data);
-      } catch (err: any) {
-        toast.error(err.message || "Failed to load PINs");
-        setIsOpen(false);
-      } finally {
-        setLoading(false);
-      }
+      startTransition(async () => {
+        try {
+          const data = await getDecryptedPinsForTransaction(transactionId);
+          setPins(data);
+        } catch (err: any) {
+          toast.error(err.message || "Failed to load PINs");
+          setIsOpen(false);
+        }
+      });
     }
   };
 
@@ -65,8 +68,8 @@ export function PinDetailsDialog({ transactionId, reference }: PinDetailsDialogP
         </DialogHeader>
 
         <div className="mt-2 max-h-96 space-y-3 overflow-y-auto">
-          {loading ? (
-            <div className="py-8 text-center text-sm text-gray-500">Decrypting PINs...</div>
+          {isPending ? (
+            <PinDetailsSkeleton />
           ) : pins.length === 0 ? (
             <div className="py-8 text-center text-sm text-gray-500">
               No PINs found for this transaction.
@@ -120,5 +123,24 @@ export function PinDetailsDialog({ transactionId, reference }: PinDetailsDialogP
         </div>
       </DialogContent>
     </Dialog>
+  );
+}
+
+// Clean loading state skeleton
+function PinDetailsSkeleton() {
+  return (
+    <div className="rounded-lg border p-3.5 space-y-3">
+      <Skeleton className="h-4 w-16" />
+      <div className="grid grid-cols-2 gap-2">
+        <div className="space-y-1">
+          <Skeleton className="h-3 w-20" />
+          <Skeleton className="h-7 w-full" />
+        </div>
+        <div className="space-y-1">
+          <Skeleton className="h-3 w-16" />
+          <Skeleton className="h-7 w-full" />
+        </div>
+      </div>
+    </div>
   );
 }

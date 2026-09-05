@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { z } from "zod";
 
-// 1. Zod Schema for Result Checker Validation
 const resultCheckerSchema = z.object({
     examinationNumber: z
         .string()
@@ -19,8 +18,6 @@ const resultCheckerSchema = z.object({
         .regex(/^\d+$/, { message: "PIN must contain digits only." }),
     cardSerial: z.string().min(5, { message: "Serial Number is required." }),
 });
-
-type ResultCheckerFormValues = z.infer<typeof resultCheckerSchema>;
 
 export default function ResultPage() {
     const [errors, setErrors] = useState<Record<string, string[]>>({});

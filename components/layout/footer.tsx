@@ -1,6 +1,9 @@
 import Link from "next/link";
 
-export function Footer() {
+export async function Footer() {
+  'use cache'
+  const currentYear = new Date().getFullYear()
+
   return (
     <footer className="border-t border-gray-200 bg-gray-50 text-gray-600 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-400">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -66,11 +69,13 @@ export function Footer() {
         </div>
 
         <div className="mt-8 border-t border-gray-200 pt-6 text-center text-xs text-gray-500 dark:border-gray-800">
-          © {new Date().getFullYear()} EasyWAEC. All rights reserved.
+          © {currentYear} EasyWAEC. All rights reserved.
         </div>
       </div>
     </footer>
   );
 }
+
+
 
 

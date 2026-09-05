@@ -49,7 +49,7 @@ export function PinPurchaseFormClient({ user, initialUnitPrice }: PinPurchaseFor
   };
 
   return (
-<div className="mx-auto max-w-lg rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+    <div className="mx-auto max-w-lg rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
       <div className="mb-6">
         <h2 className="text-xl font-bold text-gray-900 dark:text-white">
           Buy WAEC Result Checker PIN

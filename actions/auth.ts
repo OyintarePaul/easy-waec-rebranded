@@ -100,7 +100,7 @@ export async function signUpUser(prevState: AuthState | void, formData: FormData
   if (data?.session) {
     redirect("/dashboard");
   } else {
-    redirect("/auth/login?message=Check your email to confirm your account");
+    redirect("/auth/sign-up-success");
   }
 }
 

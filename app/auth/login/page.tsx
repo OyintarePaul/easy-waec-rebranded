@@ -1,16 +1,11 @@
 "use client";
 
-import React, { useActionState } from "react";
+import { useActionState } from "react";
 import Link from "next/link";
 import { loginUser } from "@/actions/auth";
 
-export default function LoginPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ message?: string }>;
-}) {
+export default function LoginPage() {
   const [state, formAction, isPending] = useActionState(loginUser, undefined);
-  const resolvedParams = React.use(searchParams);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 dark:bg-gray-900">
@@ -23,12 +18,6 @@ export default function LoginPage({
             Sign in to your account to view purchases and purchase PINs
           </p>
         </div>
-
-        {resolvedParams?.message && (
-          <div className="rounded-md bg-blue-50 p-3 text-sm text-blue-700 dark:bg-blue-900/40 dark:text-blue-300">
-            {resolvedParams.message}
-          </div>
-        )}
 
         {state?.error && (
           <div className="rounded-md bg-red-50 p-3 text-sm text-red-700 dark:bg-red-900/40 dark:text-red-300">
