@@ -49,7 +49,6 @@ export async function sendPurchaseReceiptEmail(params: SendReceiptEmailParams) {
       return;
     }
 
-    console.log(`Purchase receipt email successfully dispatched to ${recipientEmail}. ID: ${data?.id}`);
   } catch (error) {
     // Catch gracefully to ensure parent transaction pipeline is not interrupted
     console.error("Unexpected error in sendPurchaseReceiptEmail:", error);

@@ -43,7 +43,6 @@ export async function processTransaction(
       }
 
       if (existingTx.status === "SUCCESS" || existingTx.status === "PROCESSING") {
-        console.log("Already being processed...")
         return { status: "ALREADY_PROCESSED", transactionId: existingTx.id };
 
       }
@@ -91,9 +90,6 @@ export async function processTransaction(
       customerEmail: transaction.customer_email,
       requestId: vtpassRequestId,
     });
-
-    console.log("Pins:", realPins);
-    console.log("Quantity:", pinQuantity);
 
     // 5. Encrypt & Save PINs to database using Supabase RPC function
     for (const item of realPins) {
