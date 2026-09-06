@@ -13,8 +13,8 @@ export async function AuthButtons() {
                 <div className="flex items-center space-x-3">
                     <Button
                         asChild
-                        variant="outline"
-                        className="h-auto border-none rounded-lg bg-emerald-50 px-3.5 py-2 text-xs font-semibold text-emerald-700 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:text-emerald-300 dark:hover:bg-emerald-900/60"
+                        size="sm"
+                        className="bg-primary/10 text-primary"
                     >
                         <Link href="/dashboard">
                             Dashboard
@@ -24,8 +24,8 @@ export async function AuthButtons() {
                         <Button
                             type="submit"
                             variant="outline"
-                            className="h-auto rounded-lg border border-gray-300 px-3.5 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
-                        >
+                            size="sm"
+                            >
                             Sign Out
                         </Button>
                     </form>
@@ -35,7 +35,7 @@ export async function AuthButtons() {
                     <Button
                         asChild
                         variant="link"
-                        className="h-auto p-0 text-xs font-semibold text-gray-700 hover:text-emerald-600 hover:no-underline dark:text-gray-300 dark:hover:text-emerald-400"
+                        className="h-auto p-0 text-xs font-semibold text-gray-700 hover:text-primary hover:no-underline dark:text-gray-300 dark:hover:text-primary-foreground"
                     >
                         <Link href="/auth/login">
                             Login
@@ -43,7 +43,7 @@ export async function AuthButtons() {
                     </Button>
                     <Button
                         asChild
-                        className="h-auto rounded-lg bg-emerald-600 px-4 py-2 text-xs font-semibold text-white hover:bg-emerald-500 dark:bg-emerald-600 dark:hover:bg-emerald-500"
+                        size="sm"
                     >
                         <Link href="/auth/sign-up">
                             Get Started

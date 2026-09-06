@@ -31,7 +31,7 @@ export function MobileMenu({ links }: MobileMenuProps) {
                 <div className="px-4 border-b border-muted pb-4">
                     <SheetClose asChild>
                         <Link href="/" className="inline-block">
-                            <SheetTitle className="text-2xl font-black tracking-tight text-emerald-600 dark:text-emerald-500 text-left">
+                            <SheetTitle className="text-2xl font-black tracking-tight text-primary dark:text-primary-foreground text-left">
                                 EasyWAEC
                             </SheetTitle>
                         </Link>

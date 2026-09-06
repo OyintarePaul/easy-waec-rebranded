@@ -19,7 +19,7 @@ export function Navbar() {
           <MobileMenu links={NAV_LINKS} />
           
           <Link href="/" className="flex items-center space-x-2">
-            <span className="text-2xl font-black tracking-tight text-emerald-600 dark:text-emerald-500">
+            <span className="text-2xl font-black tracking-tight text-primary dark:text-primary-foreground">
               EasyWAEC
             </span>
           </Link>

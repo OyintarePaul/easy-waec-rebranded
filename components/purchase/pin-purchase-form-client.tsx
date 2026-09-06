@@ -76,12 +76,12 @@ export function PinPurchaseFormClient({ user, initialUnitPrice }: PinPurchaseFor
           {user ? (
             <div className="rounded-lg bg-gray-50 p-3.5 text-xs space-y-1 text-gray-600 dark:bg-gray-800 dark:text-gray-300">
               <div>
-                <span className="font-semibold text-gray-800 dark:text-gray-200">Account:</span>{" "}
+                <span className="font-semibold text-muted-foreground dark:text-gray-200">Account:</span>{" "}
                 {user.email}
               </div>
               {user.phone && (
                 <div>
-                  <span className="font-semibold text-gray-800 dark:text-gray-200">Phone:</span>{" "}
+                  <span className="font-semibold text-muted-foreground dark:text-gray-200">Phone:</span>{" "}
                   {user.phone}
                 </div>
               )}
@@ -105,7 +105,7 @@ export function PinPurchaseFormClient({ user, initialUnitPrice }: PinPurchaseFor
               placeholder="e.g. recipient@example.com"
               value={customerEmail}
               onChange={(e) => setCustomerEmail(e.target.value)}
-              className="w-full focus-visible:ring-emerald-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-500"
+              className="w-full focus-visible:ring-primary dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-500"
             />
             <p className="mt-1 text-[11px] text-gray-500 dark:text-gray-400">
               PINs and purchase receipts will be dispatched to this address.

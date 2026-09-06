@@ -14,13 +14,13 @@ export default async function HomePage() {
         >
           ⚡ 100% Instant Automated Delivery
         </Badge>
-        <h1 className="mt-4 text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl dark:text-white">
+        <h1 className="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl">
           Buy WAEC Result Checker PINs Online
         </h1>
         <p className="mx-auto mt-3 max-w-2xl text-base text-gray-600 dark:text-gray-400">
           Get official WAEC scratch cards delivered straight to your email and dashboard within seconds. Guaranteed valid PINs & Serials.
         </p>
-
+        
         {/* Embedded Purchase Form */}
         <div className="mt-8">
           <Suspense fallback={<PinPurchaseFormSkeleton />}>

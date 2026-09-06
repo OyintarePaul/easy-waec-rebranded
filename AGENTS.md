@@ -1,9 +1,41 @@
-<!-- BEGIN:nextjs-agent-rules -->
+# Next.js + Supabase Starter Kit
 
-# This is NOT the Next.js you know
+## Commands
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+- `npm run dev` — start dev server (localhost:3000)
+- `npm run build` — build for production
+- `npm run start` — start production server
+- `npm run lint` — run ESLint
+- `npm run update-types` — regenerate Supabase types from dashboard
 
-This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+## Environment
 
-<!-- END:nextjs-agent-rules -->
+- `.env.local` is required for local development. It must contain at minimum:
+  - `NEXT_PUBLIC_SUPABASE_URL`
+  - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+  - `SUPABASE_SECRET_KEY`
+  - `MONNIFY_API_KEY`, `MONNIFY_SECRET_KEY`, `MONNIFY_CONTRACT_CODE`
+  - `RESEND_API_KEY`
+  - VTPASS keys and `NEXT_PUBLIC_VTPASS_PUBLIC_KEY`
+- `NEXT_PUBLIC_APP_URL` is used for auth redirect
+
+## Key Conventions
+
+- App Router enabled (`next.config.ts` with `experimental.serverActions.allowedOrigins: ["localhost:3000"]`)
+- Supabase client in `lib/supabase/client.ts`, server in `lib/supabase/server.ts`
+- Database tables: `profiles`, `pins`, `transactions` (see `lib/supabase/types.ts`)
+- Enum: `transaction_status` = `PENDING | PROCESSING | SUCCESS | FAILED | PIN_DISPATCH_FAILED`
+- Shadcn/ui components initialized (`components.json` exists); run `npx shadcn-ui@latest add <component>` to add new ones
+- Email lib at `lib/email.ts`; Resend configured via `RESEND_API_KEY`
+- Server Actions allowed only from `localhost:3000`
+
+## Supabase Types
+
+- Types auto-generated via `npm run update-types` — runs `supabase gen types typescript --linked --schema public > lib/supabase/types.ts`
+- Types are in `lib/supabase/types.ts`; never edit manually unless regenerating
+
+## Database
+
+- Tables: `profiles`, `pins`, `transactions`
+- Use Supabase SQL editor or migrations for schema changes
+- RLS policies may be configured; check `lib/supabase/` for server-side helpers
